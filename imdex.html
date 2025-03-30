@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beriana Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f4;
+        }
+        input {
+            width: 300px;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            transition: 0.3s;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .google-btn {
+            background-color: #4285F4;
+        }
+        .bing-btn {
+            background-color: #008373;
+        }
+        .duckduckgo-btn {
+            background-color: #DE5833;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beriana Search</h1>
+    <input type="text" id="searchQuery" placeholder="Digite sua busca...">
+    <br>
+    <button class="google-btn" onclick="searchGoogle()">Buscar no Google</button>
+    <button class="bing-btn" onclick="searchBing()">Buscar no Bing</button>
+    <button class="duckduckgo-btn" onclick="searchDuckDuckGo()">Buscar no DuckDuckGo</button>
+
+    <script>
+        function searchGoogle() {
+            let query = document.getElementById('searchQuery').value;
+            if (query) {
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        function searchBing() {
+            let query = document.getElementById('searchQuery').value;
+            if (query) {
+                window.location.href = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
+            }
+        }
+        
+        function searchDuckDuckGo() {
+            let query = document.getElementById('searchQuery').value;
+            if (query) {
+                window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            }
+        }
+    </script>
+</body>
+</html>
