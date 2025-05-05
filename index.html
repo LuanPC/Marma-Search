@@ -1,99 +1,128 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beriana Search</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-            background-color: #f4f4f4;
-        }
-        input {
-            width: 300px;
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 12px 24px;
-            margin: 5px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            transition: 0.3s;
-        }
-        button:hover {
-            opacity: 0.8;
-        }
-        .google-btn {
-            background-color: #4285F4;
-        }
-        .bing-btn {
-            background-color: #008373;
-        }
-        .duckduckgo-btn {
-            background-color: #DE5833;
-        }
-        .wikipedia-btn {
-            background-color: #000000;
-        }
-        .youtube-btn {
-            background-color: #FF0000;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beriana Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f4f4f4;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 12px 24px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      transition: 0.3s;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+    .google-btn { background-color: #4285F4; }
+    .bing-btn { background-color: #008373; }
+    .duckduckgo-btn { background-color: #DE5833; }
+    .wikipedia-btn { background-color: #000000; }
+    .youtube-btn { background-color: #FF0000; }
+
+    #history {
+      margin-top: 30px;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    #history h2 {
+      text-align: center;
+    }
+    #history ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    #history li {
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+  </style>
 </head>
 <body>
-    <h1>Beriana Search</h1>
-    <input type="text" id="searchQuery" placeholder="Digite sua busca...">
-    <br>
-    <button class="google-btn" onclick="searchGoogle()">Buscar no Google</button>
-    <button class="bing-btn" onclick="searchBing()">Buscar no Bing</button>
-    <button class="duckduckgo-btn" onclick="searchDuckDuckGo()">Buscar no DuckDuckGo</button>
-    <button class="wikipedia-btn" onclick="searchWikipedia()">Buscar na Wikipedia</button>
-    <button class="youtube-btn" onclick="searchYouTube()">Buscar no YouTube</button>
+  <h1>Beriana Search</h1>
+  <input type="text" id="searchQuery" placeholder="Digite sua busca...">
+  <br>
+  <button class="google-btn" onclick="search('google')">Buscar no Google</button>
+  <button class="bing-btn" onclick="search('bing')">Buscar no Bing</button>
+  <button class="duckduckgo-btn" onclick="search('duckduckgo')">Buscar no DuckDuckGo</button>
+  <button class="wikipedia-btn" onclick="search('wikipedia')">Buscar na Wikipedia</button>
+  <button class="youtube-btn" onclick="search('youtube')">Buscar no YouTube</button>
 
-    <script>
-        function searchGoogle() {
-            let query = document.getElementById('searchQuery').value;
-            if (query) {
-                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-            }
-        }
+  <div id="history">
+    <h2>Histórico de Pesquisas</h2>
+    <ul id="historyList"></ul>
+  </div>
 
-        function searchBing() {
-            let query = document.getElementById('searchQuery').value;
-            if (query) {
-                window.location.href = `https://www.bing.com/search?q=${encodeURIComponent(query)}`;
-            }
-        }
+  <script>
+    const historyKey = "beriana_search_history";
+    let historyList = JSON.parse(localStorage.getItem(historyKey)) || [];
 
-        function searchDuckDuckGo() {
-            let query = document.getElementById('searchQuery').value;
-            if (query) {
-                window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
-            }
-        }
+    function saveHistory() {
+      localStorage.setItem(historyKey, JSON.stringify(historyList));
+    }
 
-        function searchWikipedia() {
-            let query = document.getElementById('searchQuery').value;
-            if (query) {
-                window.location.href = `https://pt.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`;
-            }
-        }
+    function addToHistory(query) {
+      if (query && !historyList.includes(query)) {
+        historyList.unshift(query);
+        if (historyList.length > 10) historyList.pop();
+        saveHistory();
+        updateHistoryDisplay();
+      }
+    }
 
-        function searchYouTube() {
-            let query = document.getElementById('searchQuery').value;
-            if (query) {
-                window.location.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
-            }
-        }
-    </script>
+    function updateHistoryDisplay() {
+      const ul = document.getElementById('historyList');
+      ul.innerHTML = "";
+      historyList.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+      });
+    }
+
+    function search(engine) {
+      const query = document.getElementById('searchQuery').value;
+      if (!query) return;
+
+      addToHistory(query);
+
+      let url = "";
+      switch(engine) {
+        case 'google': url = `https://www.google.com/search?q=${encodeURIComponent(query)}`; break;
+        case 'bing': url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`; break;
+        case 'duckduckgo': url = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`; break;
+        case 'wikipedia': url = `https://pt.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`; break;
+        case 'youtube': url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`; break;
+      }
+      window.location.href = url;
+    }
+
+    // Exibir histórico ao carregar a página
+    updateHistoryDisplay();
+  </script>
 </body>
 </html>
