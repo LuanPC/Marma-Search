@@ -37,6 +37,7 @@
     .duckduckgo-btn { background-color: #DE5833; }
     .wikipedia-btn { background-color: #000000; }
     .youtube-btn { background-color: #FF0000; }
+    .perplexity-btn { background-color: #6B46C1; }
 
     #history {
       margin-top: 30px;
@@ -71,6 +72,7 @@
   <button class="duckduckgo-btn" onclick="search('duckduckgo')">Buscar no DuckDuckGo</button>
   <button class="wikipedia-btn" onclick="search('wikipedia')">Buscar na Wikipedia</button>
   <button class="youtube-btn" onclick="search('youtube')">Buscar no YouTube</button>
+  <button class="perplexity-btn" onclick="search('perplexity')">Buscar no Perplexity</button>
 
   <div id="history">
     <h2>Histórico de Pesquisas</h2>
@@ -117,11 +119,11 @@
         case 'duckduckgo': url = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`; break;
         case 'wikipedia': url = `https://pt.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`; break;
         case 'youtube': url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`; break;
+        case 'perplexity': url = `https://www.perplexity.ai/search?q=${encodeURIComponent(query)}`; break;
       }
       window.location.href = url;
     }
 
-    // Exibir histórico ao carregar a página
     updateHistoryDisplay();
   </script>
 </body>
